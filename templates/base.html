@@ -1,0 +1,23 @@
+<!doctype html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<title>{% block title %}Travel Reccomendation System!{% endblock %} </title>
+<nav>
+  <h1>Travel Reccomendation System!</h1>
+  <!-- <b>Navigation:</b> -->
+  <p>
+    This website allows you to put in your own desired location for the perfect day!
+    Whether it may be for your family, friends, or significant other, if you're in a pinch,
+    just plug in your desired city and occasion, and we'll take it from there! Select your
+    favorite destinations with a few clicks and everyone will compliment you for your 
+    exquisite taste in planning!
+  </p>
+  <ul>
+    <li><a href="{{ url_for('home') }}">Plan a Trip!</a></li>
+  </ul>
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% block content %}{% endblock %}
+</section>

@@ -1,0 +1,148 @@
+html {
+    font-family: sans-serif;
+    padding: 1rem;
+    background-color: #00a0d8;
+    background-image: url("/static/mountain.png");
+    background-size: 500px;
+    background-repeat: space repeat;
+}
+  
+
+body {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: rgb(0, 0, 0);
+    font-family: sans-serif;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+a {
+    color: CornflowerBlue;
+    text-decoration: none;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid lightgray;
+}
+
+nav {
+    background: rgb(0, 84, 99);
+    padding: 0 0.5rem;
+    border-radius: 50px;
+    border: 2px solid #00000054;
+    margin: 1rem
+}
+
+nav h1 {
+    padding: 0.5rem;
+    color: rgb(190, 190, 190);
+    font-family: sans-serif;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+nav p {
+    color: rgb(190,190,190)
+}
+
+nav ul  {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    display: block;
+    padding: 1rem 2rem 2rem 1rem;
+}
+
+.content {
+    padding: 1rem 1rem;
+    background: rgb(214, 239, 255);
+    border: 2px solid #00000054;
+    border-radius: 9px;
+}
+
+body h1 {
+    padding: .5rem;
+}
+
+.flash {
+    text-align: center;
+    margin: 1em 0;
+    padding: 1em;
+    background: #cae6f6;
+    border: 1px solid #377ba8;
+}
+
+/* new stuff */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  td {
+    border: 1px solid #ccc;
+  }
+  
+  tr:nth-child(even) td {
+    background-color: #f2f2f2;
+  }
+
+  form {
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    margin: 0 auto;
+  }
+  
+  label {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    border-radius: 5px;
+  }
+
+  button {
+    background-color: #8a1414;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #3e8e41;
+  }

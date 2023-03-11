@@ -1,29 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<form action="/" method="post">
-	<input name="Address">
-	<input type="submit" value="submit">
-	<a href="/add">add</a>
-</form>
-<table border="1">
-	<tr>
-		<th>Name</th>
-		<th>Address</th>
+{% extends 'base.html' %}
 
-	</tr>
-	{% for item in list %}
-	<tr>
-		<td>{{item[0]}}</td>
-		<td>{{item[1]}}</td>
+{% block content %}
+	<body>
+	<form action="/" method="post">
+		<input name="Address">
+		<input type="submit" value="submit">
+		<a href="/add">add</a>
+	</form>
+	<table border="1">
+		<tr>
+			<th>Name</th>
+			<th>Address</th>
 
-	</tr>
-	{% endfor %}
-</table>
-</body>
+		</tr>
+		{% for item in list %}
+		<tr>
+			<td>{{item[0]}}</td>
+			<td>{{item[1]}}</td>
 
-</html>
+		</tr>
+		{% endfor %}
+	</table>
+	</body>
+
+{% endblock %}

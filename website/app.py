@@ -4,7 +4,6 @@ import sqlite3
 from werkzeug.utils import redirect
 
 app = Flask(__name__)
-app.run(debug=True)
 
 
 @app.route('/',methods=['GET', 'POST'])
@@ -14,9 +13,9 @@ def index():
     cur = conn.cursor()
     cur.execute("select * from places where Address like '%{}%'".format(Address))
     list = cur.fetchall()
-
     print(list[0])
     return render_template('index.html', list=list)
+
 @app.route('/add',methods=['GET', 'POST'])
 def add():
     if request.method == 'GET':
@@ -28,5 +27,6 @@ def add():
         cur.execute("insert into places(Address) values ('{}')".format(Address))
         conn.commit()
         return redirect('/')
+    
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, host="0.0.0.0", port=5001)
