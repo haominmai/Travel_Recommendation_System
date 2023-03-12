@@ -28,6 +28,7 @@ def search():
 
 # Johnny's - AIzaSyCpcurR1TxU1Cgp_5Hv6PeUZ_p-qc-WD1M
 
+
 api_key = 'AIzaSyCpcurR1TxU1Cgp_5Hv6PeUZ_p-qc-WD1M'
 
 def search_place(city, interest):
@@ -54,6 +55,7 @@ def info(places):
     
     """
     columns = ['result','name', 'address', 'latitude', 'longitude', 'rating', 'rating_numbers', 'open_hour']
+
     df = pd.DataFrame(columns = columns)
     
     for place in places:
@@ -65,6 +67,7 @@ def info(places):
         rating_numbers = place.get('user_ratings_total', 0) # Use 0 as default rating count if not found
         open_hour = reorganize_opening_hours(place['place_id'])
 
+
         df = pd.concat([df, pd.DataFrame({
             'result': len(df) + 1,
             'name': [name],
@@ -72,14 +75,13 @@ def info(places):
             'latitude': [latitude],
             'longitude': [longitude],
             'rating': [rating],
+
             'rating_numbers': [rating_numbers],
             'open_hour': [open_hour]
         })])
 
     
     df.reset_index(drop = True, inplace = True)
-    
-    
     return df
 
 
@@ -138,6 +140,7 @@ def reorganize_opening_hours(place_id):
         return ('No opening hours found.')
 
         
+
 def save_to_database(df):
     # Connect to the database
     conn = sqlite3.connect('places.db')

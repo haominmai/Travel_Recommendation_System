@@ -108,10 +108,12 @@ tr:nth-child(even) td {
 }
 
 form {
+
     border-radius: 10px;
     padding: 20px;
     width: 400px;
     margin: 0 auto;
+
 }
   
 label {
@@ -127,6 +129,7 @@ input[type="text"] {
     margin-bottom: 20px;
     box-sizing: border-box;
     border-radius: 5px;
+
 }
 
 button {
@@ -146,3 +149,4 @@ button {
 button:hover {
     background-color: #4a3e8e;
 }
+

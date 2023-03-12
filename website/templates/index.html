@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<body>
+	<form action="/" method="post">
+		<input name="Address">
+		<input type="submit" value="submit">
+		<a href="/add">add</a>
+	</form>
+	<table border="1">
+		<tr>
+			<th>Name</th>
+			<th>Address</th>
+
+		</tr>
+		{% for item in list %}
+		<tr>
+			<td>{{item[0]}}</td>
+			<td>{{item[1]}}</td>
+
+		</tr>
+		{% endfor %}
+	</table>
+	</body>
+
+{% endblock %}
