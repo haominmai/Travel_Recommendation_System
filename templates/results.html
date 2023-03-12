@@ -1,12 +1,57 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
+
+{% block content %}
   <head>
     <title>Results</title>
   </head>
   <body>
     <h1>Results</h1>
-    <p>You searched for {{ city }} and {{ interest }}.</p>
-      {{ table|safe }}
+      <p>You searched for <u>{{ city }}</u> and <u>{{ interest }}</u>.</p>
+      
+    <div id="my-plan">
+      <h2>My Current Plan:</h2>
+    </div>
     
-  </body>
-</html>
+    <hr>
+      
+    <div class="card-container">
+      {% for row in range(20) %}
+        <div class="card">
+            
+          <div class="card-header">
+            <h2>{{ table['name'][row] }} <button class = "button" onclick="saveToMyPlan('{{ table['name'][row]|escape }}')">+</button></h2>
+          </div>
+            
+          <div class="card-body">
+            <p>{{ table['address'][row] }}</p>
+            <p>Latitude: {{ table['latitude'][row] }}, Longitude: {{ table['longitude'][row] }}</p>
+            <p>Rating: {{ table['rating'][row] }} ({{ table['rating_numbers'][row] }} reviews)</p>
+            <p>Opening Hours:</p>
+            <ul>
+            {% if table['open_hour'][row] != 'No opening hours found.' %}
+                {% for hour in table['open_hour'][row] %}
+                    <li>{{ hour }}</li>
+                {% endfor %}
+            {% else %}
+                <p> No opening hours found.</p>
+            {% endif %}
+            </ul>
+          </div>
+            
+        </div>
+      {% endfor %}
+        
+                
+    </div>
+    
+    <script>
+      function saveToMyPlan(name) {
+        var myPlanDiv = document.getElementById("my-plan");
+        var nameParagraph = document.createElement("p");
+        var nameNode = document.createTextNode(name);
+        nameParagraph.appendChild(nameNode);
+        myPlanDiv.appendChild(nameParagraph);
+      }
+    </script>
+
+{% endblock %}

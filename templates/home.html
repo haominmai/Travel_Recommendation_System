@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Travel Recommendation System</title>
-  </head>
+{% extends 'base.html' %}
+
+{% block content %}
   <body>
     <h1>Find Places of Interest</h1>
     <form method="post" action="/search">
@@ -15,4 +13,4 @@
       <button type="submit">Search</button>
     </form>
   </body>
-</html>
+{% endblock %}
