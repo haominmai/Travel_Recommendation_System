@@ -8,6 +8,10 @@ import json
 import calendar
 import datetime
 
+# Johnny's API key- AIzaSyCpcurR1TxU1Cgp_5Hv6PeUZ_p-qc-WD1M
+api_key = 'AIzaSyCpcurR1TxU1Cgp_5Hv6PeUZ_p-qc-WD1M'
+gmaps = googlemaps.Client(key=api_key)
+
 
 app = Flask(__name__)
 
@@ -24,12 +28,8 @@ def search():
     #save_to_database(df)
     return render_template('results.html', city = city, interest = interest, table = df)
 
+
 # APP FUNCTIONS
-
-# Johnny's - AIzaSyCpcurR1TxU1Cgp_5Hv6PeUZ_p-qc-WD1M
-
-
-api_key = 'AIzaSyCpcurR1TxU1Cgp_5Hv6PeUZ_p-qc-WD1M'
 
 def search_place(city, interest):
     '''
@@ -40,7 +40,9 @@ def search_place(city, interest):
         their name, address, rating, etc.
     '''
     gmaps = googlemaps.Client(key = api_key)
-    places_result = gmaps.places(location = city, query = interest)
+    city_gmap = gmaps.places(query = city)
+    city_location = city_gmap['results'][0]['geometry']['location']
+    places_result = gmaps.places(location = city_location, query = interest)
     places_list = places_result['results']
     return(places_list) 
 
@@ -79,13 +81,9 @@ def info(places):
             'rating_numbers': [rating_numbers],
             'open_hour': [open_hour]
         })])
-
     
     df.reset_index(drop = True, inplace = True)
     return df
-
-
-gmaps = googlemaps.Client(key=api_key)
 
 def get_place_details(place_id):
     
