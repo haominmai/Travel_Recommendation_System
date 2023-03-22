@@ -15,6 +15,6 @@ def get(cur_index):
     while True:
         i = random.randint(0, len(recommend_list))
         if i != cur_index:
-            return recommend_list[i]
+            return recommend_list[i], i
 
 print(get(1))
