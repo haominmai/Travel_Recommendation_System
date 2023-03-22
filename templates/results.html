@@ -8,12 +8,16 @@
     <h1>Results</h1>
       <p>You searched for the location of <u>{{ city }}</u> and events <u>{{ interest }}</u>.</p>
       
-    <div id="my-plan">
-      <h2>My Current Plan:</h2>
-    </div>
-    
-    <hr>
+    <div id="my-plan-empty-message" style="display: none;">Your plan is currently empty.</div>
       
+    <div id="my-plan">
+      <h2>Your Current Plan:</h2>
+    </div>
+      
+    <button onclick="savePlan()">Save Plan</button>
+
+    <hr>
+
     <div class="card-container">
       {% for row in range(table.shape[0]) %}
         <div class="card">
@@ -48,9 +52,37 @@
         var myPlanDiv = document.getElementById("my-plan");
         var nameParagraph = document.createElement("p");
         var nameNode = document.createTextNode(name);
+        var removeButton = document.createElement("button");
+        var buttonText = document.createTextNode("-");
+        removeButton.appendChild(buttonText);
+        removeButton.id = name; 
+        removeButton.onclick = function() {
+          myPlanDiv.removeChild(nameParagraph);
+          if (myPlanDiv.children.length === 0) {
+              document.getElementById("my-plan-empty-message").style.display = "block";
+          }
+          alert(name + " has been removed from your plan!");
+        }
+          
         nameParagraph.appendChild(nameNode);
+        nameParagraph.appendChild(removeButton);
         myPlanDiv.appendChild(nameParagraph);
+
+        document.getElementById("my-plan-empty-message").style.display = "none";
+        alert(name + " has been added to your plan!");
+
       }
+        
+      function savePlan() {
+        var planItems = [];
+        var planDiv = document.getElementById("my-plan");
+        for (var i = 0; i < planDiv.children.length; i++) {
+          planItems.push(planDiv.children[i].textContent);
+        }
+        
+        // Not Done yet
+      }
+        
     </script>
 
 
