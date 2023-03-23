@@ -8,13 +8,9 @@
     <h1>Results</h1>
       <p>You searched for the location of <u>{{ city }}</u> and events <u>{{ interest }}</u>.</p>
       
-    <div id="my-plan-empty-message" style="display: none;">Your plan is currently empty.</div>
-      
     <div id="my-plan">
       <h2>Your Current Plan:</h2>
     </div>
-      
-    <button onclick="savePlan()">Save Plan</button>
 
     <hr>
 
@@ -28,13 +24,12 @@
             
           <div class="card-body">
             <p>{{ table['address'][row] }}</p>
-            <p>Latitude: {{ table['latitude'][row] }}, Longitude: {{ table['longitude'][row] }}</p>
             <p>Rating: {{ table['rating'][row] }} ({{ table['rating_numbers'][row] }} reviews)</p>
             <p>Opening Hours:</p>
             <ul>
             {% if table['open_hour'][row] != 'No opening hours found.' %}
                 {% for hour in table['open_hour'][row] %}
-                    <li>{{ hour }}</li>
+                    <pre>{{  hour }}</pre>
                 {% endfor %}
             {% else %}
                 <p> No opening hours found.</p>
@@ -48,41 +43,36 @@
     </div>
     
     <script>
-      function saveToMyPlan(name) {
-        var myPlanDiv = document.getElementById("my-plan");
-        var nameParagraph = document.createElement("p");
-        var nameNode = document.createTextNode(name);
-        var removeButton = document.createElement("button");
-        var buttonText = document.createTextNode("-");
-        removeButton.appendChild(buttonText);
-        removeButton.id = name; 
-        removeButton.onclick = function() {
-          myPlanDiv.removeChild(nameParagraph);
-          if (myPlanDiv.children.length === 0) {
-              document.getElementById("my-plan-empty-message").style.display = "block";
-          }
-          alert(name + " has been removed from your plan!");
-        }
-          
-        nameParagraph.appendChild(nameNode);
-        nameParagraph.appendChild(removeButton);
-        myPlanDiv.appendChild(nameParagraph);
-
-        document.getElementById("my-plan-empty-message").style.display = "none";
-        alert(name + " has been added to your plan!");
-
+    function saveToMyPlan(name) {
+      var myPlanDiv = document.getElementById("my-plan");
+      var nameParagraph = document.createElement("p");
+      var nameNode = document.createTextNode(name+" ");
+      var removeButton = document.createElement("button");
+      var buttonText = document.createTextNode("-");
+        
+      removeButton.appendChild(buttonText);
+      removeButton.id = name; 
+      removeButton.onclick = function() {
+        myPlanDiv.removeChild(nameParagraph);
+        showMessage(name + " has been removed from your plan!");
       }
         
-      function savePlan() {
-        var planItems = [];
-        var planDiv = document.getElementById("my-plan");
-        for (var i = 0; i < planDiv.children.length; i++) {
-          planItems.push(planDiv.children[i].textContent);
-        }
+      nameParagraph.appendChild(nameNode);
+      nameParagraph.appendChild(removeButton);
+      myPlanDiv.appendChild(nameParagraph);
         
-        // Not Done yet
-      }
-        
+      showMessage(name + " has been added from your plan!");  
+    }
+
+    function showMessage(message) {
+      var messageDiv = document.createElement("div");
+      messageDiv.classList.add("message");
+      messageDiv.innerHTML = message;
+      document.body.appendChild(messageDiv);
+      setTimeout(function() {
+        messageDiv.style.display = "none";
+      }, 800);
+    }
     </script>
 
 
