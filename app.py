@@ -30,10 +30,11 @@ def home():
     recommend, cur_index = get_random_rec(cur_index)
     return render_template('home.html', recommend=recommend, cur_index=cur_index)
 
-current_plan = []
+
 
 @app.route('/search', methods=['POST'])
 def search():
+    current_plan = []
     city = request.form['city']
     interest = request.form['interest']
     places, lat, lng, names = search_place(city, interest)
