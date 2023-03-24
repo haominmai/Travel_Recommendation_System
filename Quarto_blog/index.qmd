@@ -1,0 +1,12 @@
+---
+title: "Final Project for Group 9"
+author: "Group 9"
+date: "2023-03-23"
+# image: ".jpg"
+---
+
+# Travel Recommendation System
+
+In this blog, our group (Haomin, Chloe, Johnny) will explain the utility and use-cases for our webapp, which is a travel recommendation system. Our website should be fairly intuitive to use since it only contains two fields to fill: city and interest. Afterwards, you may press the "search" button and it'll provide a list of potential locations to add to your itenerary. If you see an attractive location, you can add it to your saved plan.
+
+Insert whatever we had from the google collab

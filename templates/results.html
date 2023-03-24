@@ -6,8 +6,18 @@
   </head>
   <body>
     <h1>Results</h1>
-      <p>You searched for the location of <u>{{ city }}</u> and events <u>{{ interest }}</u>.</p>
-      
+      <p>You searched for the location of <u>{{ city }}</u> and event <u>{{ interest }}</u>.</p>
+    <head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    </head>
+    <body>
+        <div id="plot"></div>
+        <script>
+            var fig = {{ fig_json|safe }};
+            Plotly.newPlot('plot', fig.data, fig.layout);
+        </script>
+    </body>
+
     <div id="my-plan">
       <h2>Your Current Plan:</h2>
     </div>

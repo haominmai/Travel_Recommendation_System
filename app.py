@@ -8,19 +8,26 @@ import sqlite3
 import json
 import calendar
 import datetime
+import plotly.express as px
+import plotly
+import plotly.io as pio
+import plotly.graph_objs as go
+pio.renderers.default='iframe'
 
 # Johnny's API key- AIzaSyCpcurR1TxU1Cgp_5Hv6PeUZ_p-qc-WD1M
 api_key = 'AIzaSyCpcurR1TxU1Cgp_5Hv6PeUZ_p-qc-WD1M'
+# Johnny's mapbox token - pk.eyJ1Ijoiam9obm55Y2hpbmc4MTgiLCJhIjoiY2xmbHZxdGgwMDE4OTN2cHB5c3poeHRvOSJ9.3Sz5VR_4T9azkwqrmTk1uA
+token = 'pk.eyJ1Ijoiam9obm55Y2hpbmc4MTgiLCJhIjoiY2xmbHZxdGgwMDE4OTN2cHB5c3poeHRvOSJ9.3Sz5VR_4T9azkwqrmTk1uA'
 gmaps = googlemaps.Client(key=api_key)
 
 app = Flask(__name__)
 
 
-from test_csv import get
+from test_csv import get_random_rec
 @app.route('/')
 def home():
     cur_index = int(request.args.get('cur_index', '0'))
-    recommend, cur_index = get(cur_index)
+    recommend, cur_index = get_random_rec(cur_index)
     return render_template('home.html', recommend=recommend, cur_index=cur_index)
 
 current_plan = []
@@ -29,10 +36,12 @@ current_plan = []
 def search():
     city = request.form['city']
     interest = request.form['interest']
-    places = search_place(city, interest)
+    places, lat, lng, names = search_place(city, interest)
+    fig = create_figure(lat = lat, lng = lng, names=names)
+    fig_json = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     df = info(places)
     save_to_database(df)
-    return render_template('results.html', city=city, interest=interest, table=df, current_plan=current_plan)
+    return render_template('results.html', city=city, interest=interest, table=df, current_plan=current_plan,fig_json=fig_json)
 
 
 # APP FUNCTIONS
@@ -50,7 +59,14 @@ def search_place(city, interest):
     city_location = city_gmap['results'][0]['geometry']['location']
     places_result = gmaps.places(location=city_location, query=interest)
     places_list = places_result['results']
-    return (places_list)
+    lat = []
+    lng = []
+    names = []
+    for i in places_list:
+        lat.append(i['geometry']['location']['lat'])
+        lng.append(i['geometry']['location']['lng'])
+        names.append(i['name'])
+    return (places_list, lat, lng, names)
 
 
 def info(places):
@@ -149,6 +165,26 @@ def reorganize_opening_hours(place_id):
     else:
         return ['No opening hours found.']
 
+
+def create_figure(lat,lng,names):
+    fig = go.Figure(data=go.Scattermapbox(
+        lat=lat, lon=lng, mode='markers+text', 
+        text=names, hovertext=names, hovertemplate='<b>%{text}</b><extra></extra>'
+        ))
+    fig.update_layout(
+        mapbox={
+            'accesstoken': token,
+            'center': {'lat': lat[0], 'lon': lng[0]},
+            'zoom': 12
+        },
+        margin=dict(l=0, r=0, t=0, b=0) # remove margins
+    )
+    fig.update_traces(
+        marker_size=10,
+        textposition='top center',
+        hoverlabel_namelength=-1,
+    )
+    return fig
 
 
 

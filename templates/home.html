@@ -3,11 +3,10 @@
 {% block content %}
   <body>
   <div>
-    <h3 style="text-align:center">place</h3>
+    <h3 style="text-align:center"> A random place you could be at!</h3>
+    <h2 style="text-align:left; padding-left: 2em;">{{ recommend[1] }}</h4>
     <table border="1">
       <tr>
-        <td>Name:</td>
-        <td>{{ recommend[1] }}</td>
         <td rowspan="6">
           <img height="200px" src="{{ recommend[8] }}">
         </td>
@@ -27,10 +26,11 @@
 
       </tr>
       <tr>
-        <td>Suggest Duration:</td>
+        <td>Suggested Visit Duration:</td>
         <td>{{ recommend[7] }}</td>
 
       </tr>
+      
       <tr>
         <td colspan="3" style="text-align:right">
           <a href="/?cur_index={{ cur_index }}">Next</a>
