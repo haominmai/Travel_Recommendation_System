@@ -6,11 +6,14 @@ import re
 import csv
 
 
-# 滚动滚动条的
+# we are web scraping the U.S. landmark information from 
+# "https://www.tripadvisor.com/Attractions-g191-Activities-oa0-United_States.html"
+
+
+# move scroll bar
 def scroll_window(driver, stop_length=0, step_length=8000):
     driver.execute_script(f'window.scrollBy(0,{step_length});')
     time.sleep(2)
-
 
 
 def get_wineshop_list(url):
@@ -35,14 +38,14 @@ def get_wineshop_list(url):
             content_list=[]
             driver.get(url)
             scroll_window(driver)
-            # 获取标题
+            # get the title
             try:
                 title = driver.find_element(By.TAG_NAME, "h1").text
                 print("Name============", title)
             except:
                 title = "NULL"
                 print("Name============", title)
-            # 获取评分
+            # get rating
             content_list.append(title)
             try:
                 grade = driver.find_element(By.CLASS_NAME, "yFKLG").find_element(By.CLASS_NAME, "biGQs").text
@@ -51,15 +54,15 @@ def get_wineshop_list(url):
                 grade = 'NULL'
                 print("Rating============：", grade)
             content_list.append(grade)
-            # 获取地标
+            # get landmark
             try:
                 landmark = driver.find_element(By.CLASS_NAME, "aVUMb").find_element(By.CLASS_NAME, "fIrGe").text
-                # 分割字符串
+                # split stings
                 landmark_list = landmark.split("•")
-                # 旅游景点类型定义
+                # define landmarks type
                 tourism_type = landmark_list[-2]
                 print("Type============", tourism_type)
-                # 旅游经典类型定义2
+                # define landmarks type2
                 tourism_type_one = landmark_list[-1]
                 print("Type1============", tourism_type_one)
             except:
@@ -69,7 +72,7 @@ def get_wineshop_list(url):
                 print("Type1============", tourism_type_one)
             content_list.append(tourism_type)
             content_list.append(tourism_type_one)
-            # 获取景点开门时间
+            # get the open hours for landmark
             try:
                 open_time = driver.find_element(By.CLASS_NAME, "EIVzV").find_element(By.CLASS_NAME, "EFKKt").text
                 print("Hours============", open_time)
@@ -77,7 +80,7 @@ def get_wineshop_list(url):
                 open_time = "NULL"
                 print("Hours============", open_time)
             content_list.append(open_time)
-            # 获取景点介绍
+            # get the landmark description
             try:
                 brief = driver.find_element(By.CLASS_NAME, "IxAZL").find_element(By.CLASS_NAME, "pZUbB").text
                 print("About============", brief)
@@ -85,7 +88,7 @@ def get_wineshop_list(url):
                 brief = "NULL"
                 print("About============", brief)
             content_list.append(brief)
-            # 获取景点持续时间
+            # get duration suggestion
             try:
                 suggested_duration = driver.find_element(By.CLASS_NAME, "IxAZL").find_element(By.CLASS_NAME, "_c").text
                print("suggest_duration============", suggested_duration)
@@ -93,7 +96,7 @@ def get_wineshop_list(url):
                 suggested_duration = "NULL"
                 print("suggest_duration============", suggested_duration)
             content_list.append(suggested_duration)
-            # 获取图片地址
+            # get the image address
             try:
                 src = driver.find_element(By.CLASS_NAME, "Kxegy").find_element(By.TAG_NAME, "img").get_attribute("src")
                 print("ImageURL============", src)
@@ -101,7 +104,7 @@ def get_wineshop_list(url):
                 src = "NULL"
                 print("ImageURL============", src)
             content_list.append(src)
-            # 获取景点位置
+            # get landmark address
             try:
                 address = driver.find_element(By.CLASS_NAME, "wgNTK").find_element(By.CLASS_NAME, "XWJSj").text
                 print("Address===========", address)
@@ -109,7 +112,7 @@ def get_wineshop_list(url):
                 address = "NULL"
                 print("Address============", address)
             content_list.append(address)
-            # 获取到达景点该怎么走
+            # get guide to the landmark
             try:
                 there = driver.find_element(By.CLASS_NAME, "AqkGs").text
                 print("Guide==========", there)
@@ -129,10 +132,8 @@ def get_wineshop_list(url):
             driver.execute_script('document.getElementsByClassName("BrOJk u j z _F wSSLS tIqAi unMkR")[1].click()')
 
 
-
-
 def run():
-
+    # Website: Tripadvisor, Page: Things to Do in United States
     get_wineshop_list("https://www.tripadvisor.com/Attractions-g191-Activities-oa0-United_States.html")
 
 
@@ -144,6 +145,8 @@ if __name__ == '__main__':
     option.add_experimental_option('excludeSwitches', ['enable-automation'])
     option.add_argument('--disable-blink-features=AutomationControlled')
     driver = Chrome(executable_path="chromedriver", options=option)
+    
+    # Save result to csv files
     with open('data.csv', 'w', newline="") as f:
         writer = csv.writer(f)
         writer.writerow(

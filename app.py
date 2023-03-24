@@ -1,18 +1,17 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request
 import pandas as pd
 import warnings
-
 warnings.simplefilter(action='ignore', category=FutureWarning)
 import googlemaps
 import sqlite3
 import json
 import calendar
 import datetime
-import plotly.express as px
 import plotly
+import plotly.express as px
 import plotly.io as pio
-import plotly.graph_objs as go
 pio.renderers.default='iframe'
+import plotly.graph_objs as go
 
 # Johnny's API key- AIzaSyCpcurR1TxU1Cgp_5Hv6PeUZ_p-qc-WD1M
 api_key = 'AIzaSyCpcurR1TxU1Cgp_5Hv6PeUZ_p-qc-WD1M'
@@ -29,7 +28,6 @@ def home():
     cur_index = int(request.args.get('cur_index', '0'))
     recommend, cur_index = get_random_rec(cur_index)
     return render_template('home.html', recommend=recommend, cur_index=cur_index)
-
 
 
 @app.route('/search', methods=['POST'])
@@ -54,11 +52,19 @@ def search_place(city, interest):
     Output:
         An array of all places which are arrays of objects including
         their name, address, rating, etc.
+        
     '''
+    
+    
     gmaps = googlemaps.Client(key=api_key)
-    city_gmap = gmaps.places(query=city)
-    city_location = city_gmap['results'][0]['geometry']['location']
-    places_result = gmaps.places(location=city_location, query=interest)
+    
+    # set specific location
+    city_result = gmaps.geocode(city)
+    city_location = city_result[0]['geometry']['location']
+    
+    # gengerate places
+    places_result = gmaps.places(location=city_location, query=interest, radius = 1000)
+    
     places_list = places_result['results']
     lat = []
     lng = []
@@ -74,9 +80,6 @@ def info(places):
     """
     Extract useful information from the
     list of places and return a dataframe
-
-    city: the name of the city
-    interest: the type of interests like restaurant, museums
 
     """
     columns = ['result', 'name', 'address', 'rating', 'rating_numbers', 'open_hour']
@@ -104,6 +107,12 @@ def info(places):
 
 
 def get_place_details(place_id):
+    """
+    Get opening hour detail for specific place id
+    
+    place_id: an unique code for a place
+    
+    """
     # call place API with the given place id
     place_details = gmaps.place(place_id=place_id, fields=['opening_hours'])
 
@@ -116,6 +125,12 @@ def get_place_details(place_id):
 
     
 def reorganize_opening_hours(place_id):
+    """
+    Reorganize the format of opening hours for specific place id
+    
+    place_id: an unique code for a place
+    
+    """
     opening_hours = get_place_details(place_id)
     
     # check if the 'opening_hours' field is present in the response
@@ -145,12 +160,13 @@ def reorganize_opening_hours(place_id):
                     
                     # check if the day name already exists in the dictionary
                     if day_name in opening_hours_dict:
-
+                        
+                        # using blank fulfill the space of the day name
                         opening_hours_dict[day_name].append(f"{' ' * len(day_name)}  {formatted_start_time} - {formatted_end_time}")
                     else:
                         opening_hours_dict[day_name] = [f"{day_name}  {formatted_start_time} - {formatted_end_time}"]
                 else:
-                    # check if the day name already exists in the dictionary
+                    
                     if day_name in opening_hours_dict:
                         opening_hours_dict[day_name].append(f"{' ' * len(day_name)}  {formatted_start_time} - Unknown closing time")
                     else:
@@ -168,6 +184,14 @@ def reorganize_opening_hours(place_id):
 
 
 def create_figure(lat,lng,names):
+    """
+    Plot the recomend places in map
+    
+    lat: latitude
+    lng: longitude
+    names: the place name
+    
+    """
     fig = go.Figure(data=go.Scattermapbox(
         lat=lat, lon=lng, mode='markers+text', 
         text=names, hovertext=names, hovertemplate='<b>%{text}</b><extra></extra>'
@@ -190,6 +214,12 @@ def create_figure(lat,lng,names):
 
 
 def save_to_database(df):
+    """
+    Save recomend places into database
+    
+    df: recomend places
+    
+    """
     # Connect to the database
     conn = sqlite3.connect('places.db')
     cur = conn.cursor()
