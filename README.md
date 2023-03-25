@@ -19,3 +19,5 @@ Play with this website in simple 4 steps:
 
 Done! Now it's time to explore it!
 
+Ultimate Guide to Using Our Website can be found [here](https://haominmai.quarto.pub/myblog/posts/Project/Project.html).
+
