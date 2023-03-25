@@ -10,5 +10,12 @@ Are you planning your next adventure but don't know where to go or what to do? L
 
 Don't waste any more time searching through endless travel guides - let our system do the work for you!
 
+Play with this website in simple 4 steps:
 
+1. You will need the following two thinges to get access to this cool website: Google Map API key and Mapbox token.
+2. Download the zip file from github and unzip it. All necessary file is included.
+3. Open Terminal, insert your API key and token into `app.py` on the first two line code.
+4. In terminal, run `conda activate PIC16B` and `flask run`. 
+
+Done! Now it's time to explore it!
 

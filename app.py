@@ -13,10 +13,12 @@ import plotly.io as pio
 pio.renderers.default='iframe'
 import plotly.graph_objs as go
 
-# Johnny's API key- AIzaSyCpcurR1TxU1Cgp_5Hv6PeUZ_p-qc-WD1M
-api_key = 'AIzaSyCpcurR1TxU1Cgp_5Hv6PeUZ_p-qc-WD1M'
-# Johnny's mapbox token - pk.eyJ1Ijoiam9obm55Y2hpbmc4MTgiLCJhIjoiY2xmbHZxdGgwMDE4OTN2cHB5c3poeHRvOSJ9.3Sz5VR_4T9azkwqrmTk1uA
-token = 'pk.eyJ1Ijoiam9obm55Y2hpbmc4MTgiLCJhIjoiY2xmbHZxdGgwMDE4OTN2cHB5c3poeHRvOSJ9.3Sz5VR_4T9azkwqrmTk1uA'
+# your api key
+api_key = 'YOUR_API_KEY'
+
+# your token
+token = 'YOUR_TOKEN'
+
 gmaps = googlemaps.Client(key=api_key)
 
 app = Flask(__name__)
@@ -54,7 +56,6 @@ def search_place(city, interest):
         their name, address, rating, etc.
         
     '''
-    
     
     gmaps = googlemaps.Client(key=api_key)
     
